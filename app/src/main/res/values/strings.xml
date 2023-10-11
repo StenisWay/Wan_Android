@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Wan_Android</string>
+    <string name="News">新消息</string>
+    <string name="Component">各組件</string>
+    <string name="settings">設定</string>
+    <string name="myfavorite">最喜歡</string>
+    <string name="about">關於</string>
+    <string name="content">內容</string>
+    <string name="theme_settings">樣式設定</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="thanks">感謝</string>
+    <string name="support">Support</string>
+    <string name="loading">讀取中</string>
+    <string name="search_result">搜尋結果</string>
+    <string name="favorite_article">喜歡的文章</string>
+    <string name="latter_read">稍後觀看</string>
+    <string name="no_data">目前查無資料</string>
+
+</resources>

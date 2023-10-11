@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="default_txtsize">20.0dp</dimen>
+    <color name="defult_txt_big_color">@color/black</color>
+    <color name="defult_txt_small_color">@color/gray</color>
+
+    <declare-styleable name="Setting_Custom_Word">
+        <attr name="txt_size" format="dimension"/>
+        <attr name="txt_big_string" format="string"/>
+        <attr name="txt_small_string" format="string"/>
+        <attr name="txt_big_color" format="color"/>
+        <attr name="txt_small_color" format="color"/>
+    </declare-styleable>
+
+</resources>

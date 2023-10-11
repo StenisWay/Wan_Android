@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".setting.SettingFragment" >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/waterblue"
+                android:text="@string/theme_settings"
+                android:textColor="@color/black"
+                android:textSize="28sp"
+                android:textStyle="bold" />
+
+            <com.stenisway.wan_android.component.Setting_Custom_Word
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:txt_big_string="水藍主題"
+                app:txt_small_string="主題顏色" />
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/sky_blue"
+                android:text="@string/about"
+                android:textColor="@color/ebony"
+                android:textSize="28sp"
+                android:textStyle="bold" />
+
+            <com.stenisway.wan_android.component.Setting_Custom_Word
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:txt_big_string="版本"
+                app:txt_small_string="1.0" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/sky_blue"
+                android:text="@string/thanks"
+                android:textColor="@color/ebony"
+                android:textSize="28sp"
+                android:textStyle="bold" />
+
+            <com.stenisway.wan_android.component.Setting_Custom_Word
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:txt_big_string="小黑學長"
+                app:txt_small_string="help very much" />
+
+            <com.stenisway.wan_android.component.Setting_Custom_Word
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:txt_big_string="偉銘老師"
+                app:txt_small_string="阿里嘎斗" />
+
+            <com.stenisway.wan_android.component.Setting_Custom_Word
+                android:id="@+id/txt_thank_teacher_huang"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:txt_big_string="黃彬華 老師"
+                app:txt_small_string="非常感謝~~~" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/sky_blue"
+                android:text="@string/support"
+                android:textColor="@color/ebony"
+                android:textSize="28sp"
+                android:textStyle="bold" />
+
+            <com.stenisway.wan_android.component.Setting_Custom_Word
+                android:id="@+id/cusView_Git"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:txt_big_string="GitHub Source code"
+                app:txt_small_string="即將推出" />
+
+            <com.stenisway.wan_android.component.Setting_Custom_Word
+                android:id="@+id/custView_sendadvice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:txt_big_string="Send advices"
+                app:txt_small_string="Help me improve this app" />
+
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

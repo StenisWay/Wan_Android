@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="News">新消息</string>
+    <string name="Component">各組件分類</string>
+    <string name="myfavorite">我最喜歡的文章</string>
+</resources>
