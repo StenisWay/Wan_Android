@@ -72,15 +72,12 @@ public class CategoriesDetailViewModel extends ViewModel {
         }
         MyAPIService myAPIService = RetrofitUtil.getInstance().getAPI();
         Call<NewItemBean> call = myAPIService.getCategoriesDetail(CURRENT_PAGE, id);
-        Log.d("id", id+"");
-        Log.d("page", CURRENT_PAGE+"");
+        Log.d(TAG +  "id", id+"");
+        Log.d(TAG + "page", CURRENT_PAGE+"");
         call.enqueue(new Callback<NewItemBean>() {
             @Override
             public void onResponse(@NonNull Call<NewItemBean> call, @NonNull Response<NewItemBean> response) {
                 if (response.isSuccessful()) {
-                    assert response.body() != null;
-                    Log.d(TAG + "cg_connectSuccess", response.body().getData().getDatas().toString());
-                    Log.d(TAG + "cg_connectSuccessCurPage", "onResponse: " + response.body().getData().curpage);
                     assert response.body() != null;
                     if (TOTAL_PAGE == 1){
                         TOTAL_PAGE = response.body().getData().getPageCount();
@@ -88,16 +85,19 @@ public class CategoriesDetailViewModel extends ViewModel {
                     List<New_Item> newsData = response.body().getData().getDatas();
                     NewItemBean item = response.body();
                     TOTAL_PAGE = response.body().getData().getPageCount();
-//                    如果取出的值為0或是null，很有可能是json格式解析錯誤
                     if (item.getData().getPageCount() == 0){
                         nullItem.setValue(true);
                     }
+                    Log.d(TAG + "cg_connectSuccess", response.body().getData().getDatas().toString());
+                    Log.d(TAG + "cg_connectSuccessCurPage", "onResponse: " + response.body().getData().curpage);
                     Log.d(TAG + "cg_connectSuccess total", "onResponse: " + item.getData().getPageCount());
                     List<New_Item> newItemList = _categories.getValue();
                     if (newItemList != null){
-                        newItemList.addAll(newsData);
+                        Collections.sort(newsData);
+                        newItemList.addAll(newItemList);
                         _categories.setValue(newItemList);
                     }else {
+                        Collections.sort(newsData);
                         _categories.setValue(newsData);
                     }
 

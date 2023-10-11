@@ -71,18 +71,17 @@ public class NewsViewModel extends AndroidViewModel {
             public void onResponse(@NonNull Call<NewItemBean> call, @NonNull Response<NewItemBean> response) {
                 if (response.isSuccessful()) {
                     assert response.body() != null;
-                    Log.d(TAG + "connectSuccess", response.body().getData().getDatas().toString());
-                    Log.d(TAG + "connectSuccessCurPage", "onResponse: " + response.body().getData().curpage);
-                    assert response.body() != null;
                     if (TOTAL_PAGE == 1){
                         TOTAL_PAGE = response.body().getData().getPageCount();
                     }
                     List<New_Item> newsData = response.body().getData().getDatas();
                     NewItemBean item = response.body();
                     TOTAL_PAGE = response.body().getData().getPageCount();
-//                    如果取出的值為0或是null，很有可能是json格式解析錯誤
-                    Log.d(TAG +"connectSuccess total", "onResponse: " + item.getData().getPageCount());
                     List<New_Item> newItemList = _news.getValue();
+//                    如果取出的值為0或是null，很有可能是json格式解析錯誤
+                    Log.d(TAG + "connectSuccess", response.body().getData().getDatas().toString());
+                    Log.d(TAG + "connectSuccessCurPage", "onResponse: " + response.body().getData().curpage);
+                    Log.d(TAG +"connectSuccess total", "onResponse: " + item.getData().getPageCount());
                     if (newItemList != null){
                         newItemList.addAll(newsData);
                         Collections.sort(newItemList);
