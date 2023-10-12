@@ -65,8 +65,8 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Cg
         button.setTextSize(16);
         button.setSingleLine();
 
-        button.setPadding(0, 5, 0, 0);
-        button.setGravity(Gravity.CENTER);
+        button.setPadding(0, 20, 0, 0);
+        button.setGravity(Gravity.CENTER_HORIZONTAL);
         ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 50);
         ViewGroup.MarginLayoutParams marginLayoutParams = new ViewGroup.MarginLayoutParams(layoutParams);
         marginLayoutParams.setMargins(30, 30, 30, 30);

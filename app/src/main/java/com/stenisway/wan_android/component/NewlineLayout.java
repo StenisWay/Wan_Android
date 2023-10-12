@@ -27,7 +27,7 @@ public class NewlineLayout extends ViewGroup {
     }
 
 
-
+    //測量需要的長寬高總共是多少
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         measureChildren(widthMeasureSpec, heightMeasureSpec);
@@ -44,7 +44,7 @@ public class NewlineLayout extends ViewGroup {
             super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
         } else {
-//            (modeWidth == MeasureSpec.EXACTLY && modeHeight == MeasureSpec.AT_MOST)
+//       如有需要可以擴充其他類型，這邊只有提供 (modeWidth == MeasureSpec.EXACTLY && modeHeight == MeasureSpec.AT_MOST)
             int layoutChildViewCurX = this.getPaddingLeft();
 
             int totalControlHeight = 0;
@@ -61,15 +61,6 @@ public class NewlineLayout extends ViewGroup {
                         getChildMeasureSpec(heightMeasureSpec, this.getPaddingTop() + this.getPaddingBottom(), lpMargin.height)
                 );
 
-//                MarginLayoutParams lpMargin =  null;
-
-//                if (lp instanceof ViewGroup.MarginLayoutParams){
-//                    lpMargin = (ViewGroup.MarginLayoutParams)lp;
-//                }else {
-//                    lpMargin = new MarginLayoutParams(lp);
-//                }
-//                lpMargin.setMargins(30, 0, 30, 0);
-//                childView.setLayoutParams(lpMargin);
                 int width = childView.getMeasuredWidth();
                 int height = childView.getMeasuredHeight();
 
@@ -77,7 +68,6 @@ public class NewlineLayout extends ViewGroup {
                     totalControlHeight = (height + lpMargin.topMargin + lpMargin.bottomMargin);
                 }
 
-                //如果剩余控件不够，则移到下一行开始位置
                 if (layoutChildViewCurX + width + lpMargin.leftMargin + lpMargin.rightMargin > sizeWidth) {
                     layoutChildViewCurX = this.getPaddingLeft();
                     totalControlHeight += height + lpMargin.topMargin + lpMargin.bottomMargin;
@@ -86,98 +76,37 @@ public class NewlineLayout extends ViewGroup {
 
             }
 
-            //最后确定整个布局的高度和宽度
             int cachedTotalWith = resolveSize(sizeWidth, widthMeasureSpec);
             int cachedTotalHeight = resolveSize(totalControlHeight, modeHeight);
 
             this.setMeasuredDimension(cachedTotalWith, cachedTotalHeight);
 
-
-//        } else if (modeWidth == MeasureSpec.AT_MOST && modeHeight == MeasureSpec.AT_MOST) {
-//
-//            //如果宽高都是Wrap-Content
-//            int layoutChildViewCurX = this.getPaddingLeft();
-//            //总宽度和总高度
-//            int totalControlWidth = 0;
-//            int totalControlHeight = 0;
-//            //由于宽度是非固定的，所以用一个List接收每一行的最大宽度
-//            List<Integer> lineLenghts = new ArrayList<>();
-//
-//
-//
-//            for (int i = 0; i < getChildCount(); i++) {
-//                final View childView = this.getChildAt(i);
-//                if (childView.getVisibility() == GONE) {
-//                    continue;
-//                }
-//
-//                final LayoutParams lp = (LayoutParams) childView.getLayoutParams();
-//                childView.measure(
-//                        getChildMeasureSpec(widthMeasureSpec, this.getPaddingLeft() + this.getPaddingRight(), lp.width),
-//                        getChildMeasureSpec(heightMeasureSpec, this.getPaddingTop() + this.getPaddingBottom(), lp.height)
-//                );
-//                final MarginLayoutParams lpMargin = (MarginLayoutParams) childView.getLayoutParams();
-//                int width = childView.getMeasuredWidth();
-//                int height = childView.getMeasuredHeight();
-//
-//                if (totalControlHeight == 0) {
-//                    totalControlHeight = height + lpMargin .topMargin + lpMargin .bottomMargin;
-//                }
-//
-//                //如果剩余控件不够，则移到下一行开始位置
-//                if (layoutChildViewCurX + width + lpMargin .leftMargin + lpMargin .rightMargin > sizeWidth) {
-//                    lineLenghts.add(layoutChildViewCurX);
-//                    layoutChildViewCurX = this.getPaddingLeft();
-//                    totalControlHeight += height + lpMargin .topMargin + lpMargin .bottomMargin;
-//                }
-//                layoutChildViewCurX += width + lpMargin.leftMargin + lpMargin .rightMargin;
-//
-//            }
-//
-//            //计算每一行的宽度，选出最大值
-////            YYLogUtils.w("每一行的宽度 ：" + lineLenghts.toString());
-//            totalControlWidth = Collections.max(lineLenghts);
-////            YYLogUtils.w("选出最大宽度 ：" + totalControlWidth);
-//
-//            //最后确定整个布局的高度和宽度
-//            int cachedTotalWith = resolveSize(totalControlWidth, widthMeasureSpec);
-//            int cachedTotalHeight = resolveSize(totalControlHeight, heightMeasureSpec);
-//
-//            this.setMeasuredDimension(cachedTotalWith, cachedTotalHeight);
-//
-//        }else {
-//            measureChildren(widthMeasureSpec, heightMeasureSpec);
-//            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-//
         }
 
     }
-
+//  規定子物件的放置規則
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
 
         int viewGroupWidth = getMeasuredWidth();
         int childCount = getChildCount();
 
-        int layoutChildViewCurX = l; //当前绘制View的X坐标
-        int layoutChildViewCurY = 0; //当前绘制View的Y坐标
+        int layoutChildViewCurX = l; //View的X座標
+        int layoutChildViewCurY = 0; //View的Y坐標，若設定成t，子view會距離parent有一段很大的距離
 
-
-        //遍历所有子控件，并在其位置上绘制子控件
+//        繪製所有子物件
         for (int i = 0; i < childCount; i++) {
             View childView = getChildAt(i);
             //子控件的宽和高
             int width = childView.getMeasuredWidth();
             int height = childView.getMeasuredHeight();
+//            取得子物件margin
             final MarginLayoutParams mglp = (MarginLayoutParams) childView.getLayoutParams();
-//            childView.setPadding(20, 20, 20, 20);
-//            MarginLayoutParams mglp = new MarginLayoutParams(lp);
 
-
-            //如果剩余控件不够，则移到下一行开始位置
+            //如果當前子物件+margin超過ViewGroup的寬度，就會自動換行
             if ((layoutChildViewCurX + width + mglp.leftMargin + mglp.rightMargin) > viewGroupWidth) {
                 layoutChildViewCurX = l;
-                //如果换行，则需要修改当前绘制的高度位置
+                //如果換行，物件高度要加上之前物件的高度以及margin總量
                 layoutChildViewCurY += height + mglp.topMargin + mglp.bottomMargin;
             }
             Log.d(TAG + "layoutMargin", mglp.leftMargin+"");
@@ -188,17 +117,10 @@ public class NewlineLayout extends ViewGroup {
                     layoutChildViewCurY + height + mglp.topMargin + mglp.bottomMargin);
             Log.d(TAG + "btMargin", mglp.bottomMargin+"");
             Log.d(TAG + "topMargin", mglp.topMargin+"");
-            //布局完成之后，下一次绘制的X坐标需要加上宽度
+            //一個子物件繪製完後，下個子物件的位子要把前面物件的寬度加上margin算進去
             layoutChildViewCurX += width + mglp.leftMargin + mglp.rightMargin;
 
-            //执行childView的布局与绘制(右和下的位置加上自身的宽高即可)
-//            childView.layout(layoutChildViewCurX, layoutChildViewCurY, layoutChildViewCurX + width, layoutChildViewCurY + height);
-
-            //布局完成之后，下一次绘制的X坐标需要加上宽度
-//            layoutChildViewCurX += width;
         }
-
-
 
     }
 

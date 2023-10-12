@@ -140,10 +140,8 @@ public class NewsAdapter extends ListAdapter<New_Item, RecyclerView.ViewHolder> 
             New_Item item = getItem(position);
             ItemViewHolder myViewHolder = (ItemViewHolder) holder;
             String title = item.getTitle();
-            if (stringUtil.isInvalid(title)){
-                title = stringUtil.replaceInvalidChar(item.getTitle());
-                myViewHolder.binding.txtTitle.setText(title);
-            }
+            title = stringUtil.replaceInvalidChar(item.getTitle());
+            myViewHolder.binding.txtTitle.setText(title);
             myViewHolder.binding.txtTime.setText(item.getNiceDate());
             myViewHolder.binding.txtChapterName.setText(item.getChapterName());
             myViewHolder.binding.txtAuthor.setText(item.getAuthor());
