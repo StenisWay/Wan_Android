@@ -8,15 +8,19 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.stenisway.wan_android.databinding.FragmentLaterReadBinding;
 import com.stenisway.wan_android.newitem.NewsAdapter;
+import com.stenisway.wan_android.newitem.newsbean.New_Item;
+
+import java.util.List;
 
 public class LaterReadFragment extends Fragment {
 
-    private LaterReadViewModel mViewModel;
+    private LaterReadViewModel viewModel;
 
     private static LaterReadFragment laterReadFragment;
 
@@ -31,7 +35,7 @@ public class LaterReadFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        mViewModel = new ViewModelProvider(this).get(LaterReadViewModel.class);
+        viewModel = new ViewModelProvider(this).get(LaterReadViewModel.class);
         binding = FragmentLaterReadBinding.inflate(LayoutInflater.from(requireContext()));
         return binding.getRoot();
     }
@@ -44,8 +48,14 @@ public class LaterReadFragment extends Fragment {
         adapter.goneProgress();
         binding.rvLaterRead.setAdapter(adapter);
         binding.rvLaterRead.setLayoutManager(new LinearLayoutManager(requireContext()));
-
-        mViewModel.getLaterList().observe(getViewLifecycleOwner(), adapter::submitList);
+        viewModel.getLaterList().observe(getViewLifecycleOwner(), new Observer<List<New_Item>>() {
+                    @Override
+                    public void onChanged(List<New_Item> new_items) {
+                        adapter.submitList(new_items);
+                        binding.rvLaterRead.scrollToPosition(0);
+                    }
+                }
+        );
 
     }
 

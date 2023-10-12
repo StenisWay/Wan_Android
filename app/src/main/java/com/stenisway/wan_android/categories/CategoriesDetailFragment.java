@@ -22,7 +22,7 @@ import java.util.Objects;
 
 public class CategoriesDetailFragment extends BaseNextFragment {
 
-    private CategoriesDetailViewModel mViewModel;
+    private CategoriesDetailViewModel viewModel;
     private FragmentCategoriesDetailBinding binding;
 
     private final String TAG = this.getClass().getName();
@@ -34,7 +34,7 @@ public class CategoriesDetailFragment extends BaseNextFragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mViewModel = new ViewModelProvider(this).get(CategoriesDetailViewModel.class);
+        viewModel = new ViewModelProvider(this).get(CategoriesDetailViewModel.class);
         binding = FragmentCategoriesDetailBinding.inflate(LayoutInflater.from(requireContext()));
         return binding.getRoot();
     }
@@ -44,32 +44,25 @@ public class CategoriesDetailFragment extends BaseNextFragment {
         super.onViewCreated(view, savedInstanceState);
 
         FragmentManager manager = getParentFragmentManager();
-        manager.setFragmentResultListener("categoriesItem", this, (requestKey, result) -> mViewModel.setCategoriesId(result.getInt("id")));
+        manager.setFragmentResultListener("categoriesItem", this, (requestKey, result) -> viewModel.setCategoriesId(result.getInt("id")));
 
-        mViewModel.getCategoriesId().observe(getViewLifecycleOwner(), integer -> mViewModel.getCategoriesData(integer));
+        viewModel.getCategoriesId().observe(getViewLifecycleOwner(), integer -> viewModel.getCategoriesData(integer));
 
         NewsAdapter adapter = new NewsAdapter(true);
         binding.rvCategories.setAdapter(adapter);
         binding.rvCategories.setLayoutManager(new LinearLayoutManager(requireContext()));
 
-        mViewModel.getCategoriesDetails().observe(getViewLifecycleOwner(), items -> {
+        viewModel.getCategoriesDetails().observe(getViewLifecycleOwner(), items -> {
+
             adapter.submitList(new ArrayList<>(items));
-            if (mViewModel.needToScrollToTop) {
+            if (viewModel.needToScrollToTop) {
                 binding.rvCategories.scrollToPosition(0);
-                mViewModel.needToScrollToTop = false;
+                viewModel.needToScrollToTop = false;
             }
 
         });
 
-        mViewModel.getIsLastPage().observe(getViewLifecycleOwner(), aBoolean -> {
-
-            if (aBoolean) {
-                adapter.goneProgress();
-            }
-
-        });
-
-        mViewModel.getNullItem().observe(getViewLifecycleOwner(), aBoolean -> {
+        viewModel.getNullItem().observe(getViewLifecycleOwner(), aBoolean -> {
             if (aBoolean) {
 
                 binding.rvCategories.setVisibility(View.GONE);
@@ -89,21 +82,30 @@ public class CategoriesDetailFragment extends BaseNextFragment {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (dy < 0) return;
-                LinearLayoutManager manager = (LinearLayoutManager) binding.rvCategories.getLayoutManager();
-
-                assert manager != null;
-                int position = manager.findLastVisibleItemPosition();
-                if (position == adapter.getItemCount() - 1) {
-
-                    if (mViewModel.getCategoriesDetails().getValue() != null && !(mViewModel.getCategoriesDetails().getValue().isEmpty())) {
-                        int size = Objects.requireNonNull(mViewModel.getCategoriesDetails().getValue()).size();
-                        int id = Objects.requireNonNull(mViewModel.getCategoriesId().getValue());
-                        if (id != -1 && (size > 6)) {
-                            mViewModel.getCategoriesData(id);
+            //已解決，沒有載入的物件，progress一樣在運轉
+                if (viewModel.needToScrollToTop){
+                    binding.rvCategories.scrollToPosition(0);
+                    viewModel.needToScrollToTop = false;
+                }else {
+                    if (dy < 0 ) return;
+                    LinearLayoutManager manager = (LinearLayoutManager) binding.rvCategories.getLayoutManager();
+                    assert manager != null;
+                    int position = manager.findLastVisibleItemPosition();
+                    if (position == adapter.getItemCount() - 1){
+                        int size = Objects.requireNonNull(viewModel.getCategoriesDetails().getValue()).size();
+                        int id = Objects.requireNonNull(viewModel.getCategoriesId().getValue());
+                        viewModel.getCategoriesData(id);
+                        if (viewModel.getIsLastPage()){
+                            Log.d(TAG + "islast", viewModel.getIsLastPage() + "");
+                            View view = binding.rvCategories.getLayoutManager().findViewByPosition(adapter.getItemCount()-1);
+                            assert view != null;
+                            view.setVisibility(View.GONE);
                         }
+                        Log.d(TAG + "到底讀取資料", "讀取成功");
+                        Log.d(TAG + "是否可以滑動", viewModel.needToScrollToTop + "");
                     }
                 }
+
             }
         });
 

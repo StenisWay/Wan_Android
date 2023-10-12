@@ -186,7 +186,7 @@ public class NewsAdapter extends ListAdapter<New_Item, RecyclerView.ViewHolder> 
 
     public void goneProgress() {
         noProgress = true;
-        this.notifyItemChanged(getItemCount());
+//        this.notifyItemChanged(getItemCount());
     }
 
     private static class ItemViewHolder extends RecyclerView.ViewHolder {

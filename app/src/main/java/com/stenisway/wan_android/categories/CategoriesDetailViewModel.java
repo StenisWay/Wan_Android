@@ -50,9 +50,9 @@ public class CategoriesDetailViewModel extends ViewModel {
     }
 
 
-    private final MutableLiveData<Boolean> isLastPage = new MutableLiveData<>(false);
+    private Boolean isLastPage = false;
 
-    public LiveData<Boolean> getIsLastPage() {
+    public Boolean getIsLastPage() {
         return isLastPage;
     }
 
@@ -67,7 +67,7 @@ public class CategoriesDetailViewModel extends ViewModel {
         CURRENT_PAGE += 1;
 
         if (CURRENT_PAGE > TOTAL_PAGE){
-            isLastPage.setValue(true);
+            isLastPage = true;
             return;
         }
         MyAPIService myAPIService = RetrofitUtil.getInstance().getAPI();
@@ -93,8 +93,8 @@ public class CategoriesDetailViewModel extends ViewModel {
                     Log.d(TAG + "cg_connectSuccess total", "onResponse: " + item.getData().getPageCount());
                     List<New_Item> newItemList = _categories.getValue();
                     if (newItemList != null){
-                        Collections.sort(newsData);
-                        newItemList.addAll(newItemList);
+                        Collections.sort(newItemList);
+                        newItemList.addAll(newsData);
                         _categories.setValue(newItemList);
                     }else {
                         Collections.sort(newsData);
