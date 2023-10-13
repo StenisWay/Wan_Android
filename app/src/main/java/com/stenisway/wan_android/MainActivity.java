@@ -105,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initFragment() {
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.fragment_layout, NewsFragment.getInstance());

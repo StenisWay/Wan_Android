@@ -17,6 +17,7 @@ import com.stenisway.wan_android.newitem.NewsAdapter;
 import com.stenisway.wan_android.newitem.newsbean.New_Item;
 
 import java.util.List;
+import java.util.Objects;
 
 public class LaterReadFragment extends Fragment {
 
@@ -44,18 +45,14 @@ public class LaterReadFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        NewsAdapter adapter = new NewsAdapter(true);
-        adapter.goneProgress();
+        NewsAdapter adapter = new NewsAdapter(true, true);
         binding.rvLaterRead.setAdapter(adapter);
         binding.rvLaterRead.setLayoutManager(new LinearLayoutManager(requireContext()));
-        viewModel.getLaterList().observe(getViewLifecycleOwner(), new Observer<List<New_Item>>() {
-                    @Override
-                    public void onChanged(List<New_Item> new_items) {
-                        adapter.submitList(new_items);
-                        binding.rvLaterRead.scrollToPosition(0);
-                    }
-                }
-        );
+        viewModel.getLaterList().observe(getViewLifecycleOwner(), new_items -> {
+            adapter.submitList(new_items);
+            binding.rvLaterRead.scrollToPosition(0);
+
+        });
 
     }
 

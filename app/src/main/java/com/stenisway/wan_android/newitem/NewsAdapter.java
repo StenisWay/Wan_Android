@@ -58,6 +58,18 @@ public class NewsAdapter extends ListAdapter<New_Item, RecyclerView.ViewHolder> 
 
     }
 
+    public NewsAdapter(Boolean noBanner, Boolean noProgress) {
+        super(new ItemCallBack());
+        if (noBanner) {
+            this.noBanner = true;
+        }
+        stringUtil = new StringUtil();
+        if (noProgress){
+            this.noProgress = true;
+        }
+
+    }
+
     private final Timer timer = new Timer();
 
     //如果將timer放在BindViewHolder的區塊，會導致重複建構timer導致自動跳轉同時多次執行
@@ -96,33 +108,35 @@ public class NewsAdapter extends ListAdapter<New_Item, RecyclerView.ViewHolder> 
     @Override
     public int getItemViewType(int position) {
 
-        if (noBanner) {
-            if (position == getItemCount() - 1) {
-                return NEWS_FOOTER_ITEM;
-            } else {
-                return NEWS_NORMAL_ITEM;
-            }
-        } else {
-            if (position == getItemCount() - 1 && position != 0) {
-                return NEWS_FOOTER_ITEM;
-            } else if (position == 0) {
+        if (!noBanner){
+            if (position == 0){
                 return News_Banner;
-            } else {
-                return NEWS_NORMAL_ITEM;
             }
         }
+        if (!noProgress){
+            if (position == getItemCount() -1 && position != 0){
+                return NEWS_FOOTER_ITEM;
+            }
+        }
+
+        return NEWS_NORMAL_ITEM;
     }
 
     @Override
     public int getItemCount() {
-        int size = super.getItemCount();
-        noProgress = size < 5;
+        int size = super.getItemCount() + 2;
+
+        if (size < 5){
+            noProgress = true;
+        }
 
         if (noBanner) {
-            return size + 1;
-        } else {
-            return size + 2;
+            size -= 1;
         }
+        if (noProgress){
+            size -= 1;
+        }
+        return size;
 
     }
 
@@ -135,12 +149,11 @@ public class NewsAdapter extends ListAdapter<New_Item, RecyclerView.ViewHolder> 
             Log.d(TAG + "position after", position + "");
         }
 
-
         if (holder.getItemViewType() == NEWS_NORMAL_ITEM) {
+//            取出物件，做優化
             New_Item item = getItem(position);
             ItemViewHolder myViewHolder = (ItemViewHolder) holder;
-            String title = item.getTitle();
-            title = stringUtil.replaceInvalidChar(item.getTitle());
+            String title = stringUtil.replaceInvalidChar(item.getTitle()).trim();
             myViewHolder.binding.txtTitle.setText(title);
             myViewHolder.binding.txtTime.setText(item.getNiceDate());
             myViewHolder.binding.txtChapterName.setText(item.getChapterName());
@@ -182,11 +195,6 @@ public class NewsAdapter extends ListAdapter<New_Item, RecyclerView.ViewHolder> 
     public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
         timer.cancel();
         super.onDetachedFromRecyclerView(recyclerView);
-    }
-
-    public void goneProgress() {
-        noProgress = true;
-//        this.notifyItemChanged(getItemCount());
     }
 
     private static class ItemViewHolder extends RecyclerView.ViewHolder {
