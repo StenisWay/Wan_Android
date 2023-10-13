@@ -15,6 +15,7 @@
     <string name="search_result">搜尋結果</string>
     <string name="favorite_article">喜歡的文章</string>
     <string name="latter_read">稍後觀看</string>
-    <string name="no_data">目前查無資料</string>
+    <string name="no_data">查無資料~</string>
+    <string name="internet_fail">網路連線失敗了，請重新連線試試看~</string>
 
 </resources>

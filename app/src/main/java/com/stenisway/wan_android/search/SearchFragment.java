@@ -18,7 +18,6 @@ import com.stenisway.wan_android.databinding.FragmentSearchBinding;
 import com.stenisway.wan_android.newitem.NewsAdapter;
 import com.stenisway.wan_android.ui.BaseNextFragment;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class SearchFragment extends BaseNextFragment {
@@ -59,17 +58,20 @@ public class SearchFragment extends BaseNextFragment {
         binding.rvSearchList.setLayoutManager(new LinearLayoutManager(requireContext()));
 
         viewModel.getSearch().observe(getViewLifecycleOwner(), items -> {
-            Log.d("data", Objects.requireNonNull(viewModel.getSearch().getValue()).get(0).getTitle());
-            searchNewsAdapter.submitList(viewModel.getSearch().getValue());
-        });
-
-
-        viewModel.getSearch().observe(getViewLifecycleOwner(), items -> {
-            searchNewsAdapter.submitList(new ArrayList<>(items), () -> Log.d(TAG + "Observer", "finish submit list"));
-            if (viewModel.needToScrollToTop){
-                binding.rvSearchList.scrollToPosition(0);
-                viewModel.needToScrollToTop = false;
+            if (viewModel.getSearch().getValue() == null || viewModel.getSearch().getValue().isEmpty()){
+                binding.rvSearchList.setVisibility(View.GONE);
+                binding.txtSearchNodata.setVisibility(View.VISIBLE);
+            }else {
+                Log.d("data", Objects.requireNonNull(viewModel.getSearch().getValue()).get(0).getTitle());
+                binding.rvSearchList.setVisibility(View.VISIBLE);
+                binding.txtSearchNodata.setVisibility(View.GONE);
+                searchNewsAdapter.submitList(viewModel.getSearch().getValue());
+                if (viewModel.needToScrollToTop){
+                    binding.rvSearchList.scrollToPosition(0);
+                    viewModel.needToScrollToTop = false;
+                }
             }
+
         });
 
         binding.rvSearchList.addOnScrollListener(new RecyclerView.OnScrollListener() {

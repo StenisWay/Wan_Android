@@ -17,7 +17,7 @@ public class NewsDetailViewModel extends AndroidViewModel {
 
     public NewsDetailViewModel(@NonNull Application application) {
         super(application);
-        repository = ItemsRepository.getInstance(application);
+        repository = new ItemsRepository(application);
 
     }
 

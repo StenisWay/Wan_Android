@@ -55,6 +55,16 @@ public class MainActivity extends AppCompatActivity {
 
         viewModel.getDeleteItem().observe(this, new_items -> viewModel.deleteLocalUnnecessaryData(new_items.toArray(new New_Item[0])));
 
+    }
+
+    @Override
+    protected void onStop() {
+        viewModel.getNetSituation().removeObservers(this);
+        super.onStop();
+    }
+
+    @Override
+    protected void onStart() {
         viewModel.getNetSituation().observe(this, aBoolean -> {
             if (!aBoolean) {
                 if (viewModel.getDisConnectIsShow()) {
@@ -65,50 +75,8 @@ public class MainActivity extends AppCompatActivity {
                 viewModel.setDisConnectIsShow(true);
             }
         });
-
+        super.onStart();
     }
-
-//    private void createShortcut() {
-//        SharedPreferences preferences = this.getPreferences(Context.MODE_PRIVATE);
-//        if (!(preferences.getBoolean("IsCreateShortcut", false))){
-//            Intent shortcutIntent = new Intent(Intent.ACTION_MAIN);
-//            shortcutIntent.setComponent(new ComponentName("com.example.wan_android", "com.example.wan_android.MainActivity" ));
-//            ShortcutManager shortcutManager = this.getSystemService(ShortcutManager.class);
-//            if (shortcutManager != null) {
-//                if (shortcutManager.isRequestPinShortcutSupported()) {
-//                    ShortcutInfo shortcut = new ShortcutInfo.Builder(this, "wan_screen")
-//                            .setShortLabel("WanAndroid")
-//                            .setLongLabel("WanAndroid")
-//                            .setIcon(Icon.createWithResource(this, R.drawable.wan_icon))
-//                            .setIntent(shortcutIntent)
-//                            .build();
-//
-//                    shortcutManager.requestPinShortcut(shortcut, null);
-//                } else
-//                    Toast.makeText(this, "Pinned shortcuts are not supported!", Toast.LENGTH_SHORT).show();
-//            }
-//        }else {
-//            return;
-//        }
-//        preferences.edit().putBoolean("IsCreateShortcut", true).apply();
-//
-//    }
-
-//    private void createShortCut(){
-//        Intent shortcutIntent = new Intent(Intent.ACTION_MAIN);
-//        shortcutIntent.setComponent(new ComponentName("com.example.wan_android", "com.example.wan_android.MainActivity" ));
-//                // 设置目标活动
-//        ShortcutManager shortcutManager = getSystemService(ShortcutManager.class);
-//        // 创建ShortcutInfo
-//        ShortcutInfo shortcut = new ShortcutInfo.Builder(this, "shortcutId")
-//                .setShortLabel("WanAndroid")
-//                .setLongLabel("WanAndroid")
-//                .setIcon(Icon.createWithResource(this, R.drawable.wan_icon))
-//                .setIntent(shortcutIntent)
-//                .build();
-//        shortcutManager.addDynamicShortcuts(Collections.singletonList(shortcut));
-//
-//    }
 
     @SuppressLint("NonConstantResourceId")
     private void bottom_init() {
@@ -263,4 +231,48 @@ public class MainActivity extends AppCompatActivity {
     public void searchViewShow() {
         searchView.setVisibility(View.VISIBLE);
     }
+
+
+    //    private void createShortcut() {
+//        SharedPreferences preferences = this.getPreferences(Context.MODE_PRIVATE);
+//        if (!(preferences.getBoolean("IsCreateShortcut", false))){
+//            Intent shortcutIntent = new Intent(Intent.ACTION_MAIN);
+//            shortcutIntent.setComponent(new ComponentName("com.example.wan_android", "com.example.wan_android.MainActivity" ));
+//            ShortcutManager shortcutManager = this.getSystemService(ShortcutManager.class);
+//            if (shortcutManager != null) {
+//                if (shortcutManager.isRequestPinShortcutSupported()) {
+//                    ShortcutInfo shortcut = new ShortcutInfo.Builder(this, "wan_screen")
+//                            .setShortLabel("WanAndroid")
+//                            .setLongLabel("WanAndroid")
+//                            .setIcon(Icon.createWithResource(this, R.drawable.wan_icon))
+//                            .setIntent(shortcutIntent)
+//                            .build();
+//
+//                    shortcutManager.requestPinShortcut(shortcut, null);
+//                } else
+//                    Toast.makeText(this, "Pinned shortcuts are not supported!", Toast.LENGTH_SHORT).show();
+//            }
+//        }else {
+//            return;
+//        }
+//        preferences.edit().putBoolean("IsCreateShortcut", true).apply();
+//
+//    }
+
+//    private void createShortCut(){
+//        Intent shortcutIntent = new Intent(Intent.ACTION_MAIN);
+//        shortcutIntent.setComponent(new ComponentName("com.example.wan_android", "com.example.wan_android.MainActivity" ));
+//                // 设置目标活动
+//        ShortcutManager shortcutManager = getSystemService(ShortcutManager.class);
+//        // 创建ShortcutInfo
+//        ShortcutInfo shortcut = new ShortcutInfo.Builder(this, "shortcutId")
+//                .setShortLabel("WanAndroid")
+//                .setLongLabel("WanAndroid")
+//                .setIcon(Icon.createWithResource(this, R.drawable.wan_icon))
+//                .setIntent(shortcutIntent)
+//                .build();
+//        shortcutManager.addDynamicShortcuts(Collections.singletonList(shortcut));
+//
+//    }
+
 }

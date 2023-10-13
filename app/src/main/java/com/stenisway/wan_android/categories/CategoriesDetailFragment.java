@@ -92,7 +92,6 @@ public class CategoriesDetailFragment extends BaseNextFragment {
                     assert manager != null;
                     int position = manager.findLastVisibleItemPosition();
                     if (position == adapter.getItemCount() - 1){
-                        int size = Objects.requireNonNull(viewModel.getCategoriesDetails().getValue()).size();
                         int id = Objects.requireNonNull(viewModel.getCategoriesId().getValue());
                         viewModel.getCategoriesData(id);
                         if (viewModel.getIsLastPage()){

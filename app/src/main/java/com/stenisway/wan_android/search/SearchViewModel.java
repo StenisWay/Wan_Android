@@ -67,7 +67,7 @@ public class SearchViewModel extends ViewModel {
 //                    如果取出的值為0或是null，很有可能是json格式解析錯誤
                     Log.d(TAG + "search_connectSuccess total", "onResponse: " + item.getData().getPageCount());
                     List<New_Item> newItemList = _search.getValue();
-                    if (newItemList != null){
+                    if (newItemList != null && !(searchData.isEmpty())){
                         newItemList.addAll(searchData);
                         _search.setValue(newItemList);
                     }else {
