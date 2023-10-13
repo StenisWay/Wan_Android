@@ -114,7 +114,7 @@ public class NewsAdapter extends ListAdapter<New_Item, RecyclerView.ViewHolder> 
             }
         }
         if (!noProgress){
-            if (position == getItemCount() -1 && position != 0){
+            if (position == getItemCount() -1){
                 return NEWS_FOOTER_ITEM;
             }
         }
@@ -126,15 +126,11 @@ public class NewsAdapter extends ListAdapter<New_Item, RecyclerView.ViewHolder> 
     public int getItemCount() {
         int size = super.getItemCount() + 2;
 
-        if (size < 5){
-            noProgress = true;
-        }
-
         if (noBanner) {
-            size -= 1;
+            size --;
         }
         if (noProgress){
-            size -= 1;
+            size --;
         }
         return size;
 
@@ -143,6 +139,7 @@ public class NewsAdapter extends ListAdapter<New_Item, RecyclerView.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
+//        有Banner會多第一行
         if (!noBanner) {
             Log.d(TAG + "position before", position + "");
             position = position - 1;
@@ -180,7 +177,7 @@ public class NewsAdapter extends ListAdapter<New_Item, RecyclerView.ViewHolder> 
 
         } else {
             LoadingViewHolder myViewHolder2 = (LoadingViewHolder) holder;
-            if (noProgress) {
+            if (noProgress || getItemCount() < 5) {
                 ((LoadingViewHolder) holder).binding.getRoot().setVisibility(View.GONE);
             } else {
                 ((LoadingViewHolder) holder).binding.getRoot().setVisibility(View.VISIBLE);
