@@ -29,6 +29,12 @@ public class NewsViewModel extends AndroidViewModel {
 
     public boolean needToScrollToTop = true;
 
+    private int CURRENT_PAGE = -1;
+
+    public Boolean NEWS_ISLOADING = false;
+    public int TOTAL_PAGE = 1;
+
+
     private final MutableLiveData<List<New_Item>> _news = new MutableLiveData<>();
 
     private final ItemsRepository repository;
@@ -42,10 +48,6 @@ public class NewsViewModel extends AndroidViewModel {
     public LiveData<List<New_Item>> getNews() {
         return _news;
     }
-    private int CURRENT_PAGE = -1;
-
-    public Boolean NEWS_ISLOADING = false;
-    public int TOTAL_PAGE = 1;
 
     public LiveData<List<Banner_Item>> getBanner(){
         return repository.useBannerItemMethod(GetMethod.SELECT_ALL);

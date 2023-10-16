@@ -63,8 +63,9 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
     }
 
+
     @Override
-    protected void onStart() {
+    protected void onResume() {
         viewModel.getNetSituation().observe(this, aBoolean -> {
             if (!aBoolean) {
                 if (viewModel.getDisConnectIsShow()) {
@@ -75,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
                 viewModel.setDisConnectIsShow(true);
             }
         });
-        super.onStart();
+        super.onResume();
     }
 
     @SuppressLint("NonConstantResourceId")

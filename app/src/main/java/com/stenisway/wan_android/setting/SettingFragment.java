@@ -51,7 +51,7 @@ public class SettingFragment extends Fragment {
     public void sentEmail(Context context){
         final String emailUrl = "qazse753753@gmail.com";
         final String emailSubject = "Wan Android Advices";
-        Intent intent = new Intent(Intent.ACTION_SEND);
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
         intent.setType("text/html");
         intent.putExtra(Intent.EXTRA_EMAIL, emailUrl);
         intent.putExtra(Intent.EXTRA_SUBJECT, emailSubject);

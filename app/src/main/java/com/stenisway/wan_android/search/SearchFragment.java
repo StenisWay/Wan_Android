@@ -1,6 +1,7 @@
 package com.stenisway.wan_android.search;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,8 +60,12 @@ public class SearchFragment extends BaseNextFragment {
 
         viewModel.getSearch().observe(getViewLifecycleOwner(), items -> {
             if (viewModel.getSearch().getValue() == null || viewModel.getSearch().getValue().isEmpty()){
-                binding.rvSearchList.setVisibility(View.GONE);
-                binding.txtSearchNodata.setVisibility(View.VISIBLE);
+                new Handler().postDelayed(() -> {
+                    if (viewModel.getSearch().getValue() == null || viewModel.getSearch().getValue().isEmpty()){
+                        binding.rvSearchList.setVisibility(View.GONE);
+                        binding.txtSearchNodata.setVisibility(View.VISIBLE);
+                    }
+                }, 200);
             }else {
                 Log.d("data", Objects.requireNonNull(viewModel.getSearch().getValue()).get(0).getTitle());
                 binding.rvSearchList.setVisibility(View.VISIBLE);
